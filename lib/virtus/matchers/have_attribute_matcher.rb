@@ -13,6 +13,11 @@ module Virtus
         self
       end
 
+      def with_default(expected_default)
+        @expected_default = expected_default
+        self
+      end
+
       def matches?(klass)
         @klass = klass
         @attribute = @klass.attribute_set[@name]
@@ -23,13 +28,14 @@ module Virtus
             @attribute.options[:member_type].primitive == @type.first
         end
 
-        valid_type && valid_coercer
+        valid_type && valid_coercer && valid_default
       end
 
       def description
         type = @type.class == Array ? "Array#{@type}" : @type
         str = "have attribute #{@name}"
         str += " of type #{type}#{coercer_description}" unless @type.nil?
+        str += " with default \"#{@expected_default}\"" if @expected_default
         str
       end
 
@@ -38,6 +44,11 @@ module Virtus
       end
 
       private
+
+      def valid_default
+        @expected_default.nil? || @attribute.default_value.value == @expected_default
+      end
+
       def valid_type
         @type.nil? || @attribute.primitive == @type
       end

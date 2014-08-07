@@ -11,6 +11,8 @@ describe Virtus::Matchers::HaveAttributeMatcher do
     attribute :bar, Array[String]
     attribute :baz, Array
     attribute :lol, DateTime, coercer: FakeCoercer
+    attribute :hello, String, default: "Hello"
+    attribute :hi_no_default, String
   end
 
   context 'when attribute is defined', 'with no type' do
@@ -127,6 +129,40 @@ describe Virtus::Matchers::HaveAttributeMatcher do
     it 'should have a failure message' do
       matcher.matches?(Example)
       matcher.failure_message.should == "expected #{Example} to have attribute baz of type String"
+    end
+  end
+
+  context 'checking for default' do
+    context "when default matches expected default" do
+      let(:matcher) { described_class.new(:hello, String).with_default("Hello") }
+
+      it 'matches' do
+        expect(matcher.matches?(Example)).to be true
+      end
+    end
+
+    context "when default does not match the expected default" do
+      let(:matcher) { described_class.new(:hello, String).with_default("Hala") }
+
+      it 'does not match' do
+        expect(matcher.matches?(Example)).to be false
+      end
+    end
+
+    context "there is an expected default, but none is set" do
+      let(:matcher) do
+        described_class.new(:hi_no_default, String).with_default("Hello")
+      end
+
+      it 'does not match' do
+        expect(matcher.matches?(Example)).to be false
+      end
+    end
+
+    it 'has a description' do
+      matcher = described_class.new(:hello, String).with_default("Hello")
+      matcher.matches?(Example)
+      expect(matcher.description).to eq 'have attribute hello of type String with default "Hello"'
     end
   end
 end
