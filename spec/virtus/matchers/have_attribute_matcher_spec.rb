@@ -13,6 +13,8 @@ describe Virtus::Matchers::HaveAttributeMatcher do
     attribute :lol, DateTime, coercer: FakeCoercer
     attribute :hello, String, default: "Hello"
     attribute :hi_no_default, String
+    attribute :strict, String, strict: true
+    attribute :lenient, String
   end
 
   context 'when attribute is defined', 'with no type' do
@@ -163,6 +165,40 @@ describe Virtus::Matchers::HaveAttributeMatcher do
       matcher = described_class.new(:hello, String).with_default("Hello")
       matcher.matches?(Example)
       expect(matcher.description).to eq 'have attribute hello of type String with default "Hello"'
+    end
+  end
+
+  context 'checking for strict' do
+    context "it matches expected strictness" do
+      let(:matcher) { described_class.new(:strict, String).strict }
+
+      it 'matches' do
+        expect(matcher.matches?(Example)).to be true
+      end
+    end
+
+    context "it does not match the expected strictness" do
+      let(:matcher) { described_class.new(:lenient, String).strict }
+
+      it 'does not match' do
+        expect(matcher.matches?(Example)).to be false
+      end
+    end
+
+    context "spec does not specify strictness" do
+      it "matches" do
+        matcher = described_class.new(:strict, String)
+        expect(matcher.matches?(Example)).to be true
+
+        matcher = described_class.new(:lenient, String)
+        expect(matcher.matches?(Example)).to be true
+      end
+    end
+
+    it 'has a description' do
+      matcher = described_class.new(:lenient, String).strict
+      matcher.matches?(Example)
+      expect(matcher.description).to eq 'have attribute lenient of type String and is strict'
     end
   end
 end

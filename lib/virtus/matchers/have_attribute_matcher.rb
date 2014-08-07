@@ -18,6 +18,11 @@ module Virtus
         self
       end
 
+      def strict
+        @expected_strict = true
+        self
+      end
+
       def matches?(klass)
         @klass = klass
         @attribute = @klass.attribute_set[@name]
@@ -28,7 +33,7 @@ module Virtus
             @attribute.options[:member_type].primitive == @type.first
         end
 
-        valid_type && valid_coercer && valid_default
+        valid_type && valid_coercer && valid_default && matches_strict
       end
 
       def description
@@ -36,6 +41,7 @@ module Virtus
         str = "have attribute #{@name}"
         str += " of type #{type}#{coercer_description}" unless @type.nil?
         str += " with default \"#{@expected_default}\"" if @expected_default
+        str += " and is strict" if @expected_strict
         str
       end
 
@@ -44,6 +50,10 @@ module Virtus
       end
 
       private
+
+      def matches_strict
+        !@expected_strict || @attribute.strict?
+      end
 
       def valid_default
         @expected_default.nil? || @attribute.default_value.value == @expected_default
