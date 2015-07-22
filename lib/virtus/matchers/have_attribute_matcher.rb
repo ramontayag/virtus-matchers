@@ -28,11 +28,6 @@ module Virtus
         @attribute = @klass.attribute_set[@name]
         return false unless @attribute
 
-        if @type.class == Array
-          return @attribute.primitive == Array &&
-            @attribute.options[:member_type].primitive == @type.first
-        end
-
         valid_type && valid_coercer && valid_default && matches_strict
       end
 
@@ -60,6 +55,11 @@ module Virtus
       end
 
       def valid_type
+        if @type.class == Array
+          return @attribute.primitive == Array &&
+            @attribute.options[:member_type].primitive == @type.first
+        end
+
         @type.nil? || @attribute.primitive == @type
       end
 
