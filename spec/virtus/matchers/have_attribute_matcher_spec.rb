@@ -9,6 +9,7 @@ describe Virtus::Matchers::HaveAttributeMatcher do
     attribute :any
     attribute :foo, String
     attribute :bar, Array[String]
+    attribute :array_attribute_with_default, Array[String], default: ["hello", "world"]
     attribute :baz, Array
     attribute :lol, DateTime, coercer: FakeCoercer
     attribute :hello, String, default: "Hello"
@@ -53,6 +54,31 @@ describe Virtus::Matchers::HaveAttributeMatcher do
     it 'should have a description' do
       matcher.matches?(Example)
       matcher.description.should == 'have attribute bar of type Array[String]'
+    end
+  end
+
+  context 'when attribute is defined', 'with array type', 'with default' do
+    let(:matcher) do
+      described_class.
+        new(:array_attribute_with_default, Array[String]).
+        with_default(array_default)
+    end
+    let(:array_default) { ['hello', 'world'] }
+
+    it 'should match' do
+      matcher.matches?(Example).should be_true
+    end
+
+    context 'different array default' do
+      let(:array_default) { ['different', 'default'] }
+      it 'should not match' do
+        matcher.matches?(Example).should be_false
+      end
+    end
+
+    it 'should have a description' do
+      matcher.matches?(Example)
+      matcher.description.should == "have attribute array_attribute_with_default of type Array[String] with default \"[\"hello\", \"world\"]\""
     end
   end
 
