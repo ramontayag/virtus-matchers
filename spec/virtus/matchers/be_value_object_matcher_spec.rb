@@ -1,6 +1,7 @@
 # encoding: utf-8
+require 'spec_helper'
 
-describe Virtus::Matchers::BeAValueObjectMatcher do
+RSpec.describe Virtus::Matchers::BeAValueObjectMatcher do
   class Example
   end
 

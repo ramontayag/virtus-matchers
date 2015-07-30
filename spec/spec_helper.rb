@@ -2,6 +2,7 @@
 
 require 'virtus'
 require 'virtus-matchers'
+require 'pry'
 
 RSpec.configure do |config|
   config.include Virtus::Matchers
