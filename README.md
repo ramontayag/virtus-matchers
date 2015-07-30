@@ -1,5 +1,7 @@
 # Virtus Matchers
 
+[![Build Status](https://travis-ci.org/G5/virtus-matchers.svg)](https://travis-ci.org/G5/virtus-matchers)
+
 Matchers for Virtus
 
 Only RSpec matchers are available now
