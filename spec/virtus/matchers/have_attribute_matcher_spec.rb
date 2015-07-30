@@ -1,6 +1,7 @@
 # encoding: utf-8
+require 'spec_helper'
 
-describe Virtus::Matchers::HaveAttributeMatcher do
+RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
   class FakeCoercer; end
 
   class Example
