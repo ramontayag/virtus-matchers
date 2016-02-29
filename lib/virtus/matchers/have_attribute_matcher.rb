@@ -55,12 +55,19 @@ module Virtus
       end
 
       def valid_type
+        return true if @type.nil?
+
         if @type.class == Array
           return @attribute.primitive == Array &&
             @attribute.options[:member_type].primitive == @type.first
         end
 
-        @type.nil? || @attribute.primitive == @type
+        case @type
+        when String
+          @klass.new(@name => 200.0).send(@name) == "200.0"
+        else
+          @attribute.primitive == @type
+        end
       end
 
       def valid_coercer

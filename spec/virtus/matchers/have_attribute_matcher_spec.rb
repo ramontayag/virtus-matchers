@@ -32,7 +32,7 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined, with simple type' do
+  context 'when attribute is defined, with String type' do
     let(:matcher) { described_class.new(:foo, String) }
 
     it 'should match' do
