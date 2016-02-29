@@ -19,11 +19,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     attribute :lenient, String
   end
 
-  context 'when attribute is defined', 'with no type' do
+  context 'when attribute is defined, with no type' do
     let(:matcher) { described_class.new(:any) }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     it 'should have a description' do
@@ -32,11 +32,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with simple type' do
+  context 'when attribute is defined, with simple type' do
     let(:matcher) { described_class.new(:foo, String) }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     it 'should have a description' do
@@ -45,11 +45,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with array type', 'and correct member type' do
+  context 'when attribute is defined, with array type, and correct member type' do
     let(:matcher) { described_class.new(:bar, Array[String]) }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     it 'should have a description' do
@@ -58,7 +58,7 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with array type', 'with default' do
+  context 'when attribute is defined, with array type, with default' do
     let(:matcher) do
       described_class.
         new(:array_attribute_with_default, Array[String]).
@@ -67,13 +67,13 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     let(:array_default) { ['hello', 'world'] }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     context 'different array default' do
       let(:array_default) { ['different', 'default'] }
       it 'should not match' do
-        matcher.matches?(Example).should be_false
+        matcher.matches?(Example).should be false
       end
     end
 
@@ -83,11 +83,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with a valid coercer' do
+  context 'when attribute is defined, with a valid coercer' do
     let(:matcher) { described_class.new(:lol, DateTime).coerced_with(FakeCoercer) }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     it 'should have a description' do
@@ -96,11 +96,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with invalid coercer' do
+  context 'when attribute is defined, with invalid coercer' do
     let(:matcher) { described_class.new(:lol, DateTime).coerced_with(String) }
 
     it 'should not match' do
-      matcher.matches?(Example).should be_false
+      matcher.matches?(Example).should be false
     end
 
     it 'should have a failure message' do
@@ -109,11 +109,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with array type', 'and no member type' do
+  context 'when attribute is defined, with array type, and no member type' do
     let(:matcher) { described_class.new(:baz, Array) }
 
     it 'should match' do
-      matcher.matches?(Example).should be_true
+      matcher.matches?(Example).should be true
     end
 
     it 'should have a description' do
@@ -122,11 +122,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with array type', 'but wrong member type' do
+  context 'when attribute is defined, with array type, but wrong member type' do
     let(:matcher) { described_class.new(:bar, Array[Integer]) }
 
     it 'should not match' do
-      matcher.matches?(Example).should be_false
+      matcher.matches?(Example).should be false
     end
 
     it 'should have a failure message' do
@@ -135,11 +135,11 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     end
   end
 
-  context 'when attribute is defined', 'with wrong type' do
+  context 'when attribute is defined, with wrong type' do
     let(:matcher) { described_class.new(:foo, Hash) }
 
     it 'should not match' do
-      matcher.matches?(Example).should be_false
+      matcher.matches?(Example).should be false
     end
 
     it 'should have a failure message' do
@@ -152,7 +152,7 @@ RSpec.describe Virtus::Matchers::HaveAttributeMatcher do
     let(:matcher) { described_class.new(:baz, String) }
 
     it 'should not match' do
-      matcher.matches?(Example).should be_false
+      matcher.matches?(Example).should be false
     end
 
     it 'should have a failure message' do

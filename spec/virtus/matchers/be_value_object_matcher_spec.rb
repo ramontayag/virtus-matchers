@@ -13,7 +13,7 @@ RSpec.describe Virtus::Matchers::BeAValueObjectMatcher do
 
   context 'when Virtus::ValueObject is included' do
     it 'should match' do
-      matcher.matches?(ExampleValueObject).should be_true
+      matcher.matches?(ExampleValueObject).should be true
     end
 
     it 'should have a description' do
@@ -24,7 +24,7 @@ RSpec.describe Virtus::Matchers::BeAValueObjectMatcher do
 
   context 'when Virtus::ValueObject is not included' do
     it 'should not match' do
-      matcher.matches?(Example).should be_false
+      matcher.matches?(Example).should be false
     end
 
     it 'should have a failure message' do
